@@ -98,7 +98,67 @@ function initializeCalendar() {
     EVENT_MODAL = new bootstrap.Modal('#myModal');
   }
 
-  function openEventModal({id, day}) {
+  function openEventModal({ id, day }) {
+    // Since we will be reusing the same modal for both creating and updating events,
+    // we're creating variables to reference the title of the modal and the submit button
+    // in javascript so we can update the text suitably
+    const submit_button = document.querySelector("#submit_button");
+    const modal_title = document.querySelector(".modal-title");
+  
+    // Check if the event exists in the CALENDAR_EVENTS by using `id`
+    // Note that on the first try, when you attempt to access an event that does not exist
+    // an event will be added to the list. This is expected.
+    let event = CALENDAR_EVENTS[id];
+  
+    // If event is undefined, i.e it does not exist in the CALENDAR_EVENTS, then we create a new event.
+    // Else, we load the current event into the modal.
+    if (!event) {
+      event = {
+        name: "",
+        day: day,
+        time: "",
+        modality: "",
+        location: "",
+        url: "",
+        attendees: "",
+      };
+  
+      // @TODO: Update the innerHTML for modalTitle and submitButton
+      // Replace <> with the correct attribute
+      modal_title.innerHTML = "Create Event";
+      submit_button.innerHTML = "Create Event";
+      // Allocate a new event id. Note that nothing is inserted into the CALENDAR_EVENTS yet.
+      // @TODO: Set the id to be the length of the CALENDAR_EVENTS because we are adding a new element
+
+  
+  
+    } else {
+      // We will default to "Update Event" as the text for the title and the submit button
+      modal_title.innerHTML = "Update Event";
+      submit_button.innerHTML = "Update Event";
+    }
+  
+    // Once the event is fetched/created, populate the modal.
+    // Use document.querySelector('<>').value to get the form elements. Replace <>
+    // Hint: If it is a new event, the fields in the modal will be empty.
+    document.querySelector("#event_name").value = event.name;
+    // @TODO: Update remaining form fields of the modal with suitable values from the event.
+    document.querySelector("#event_weekday").value = event.day;
+    document.querySelector("#event_time").value = event.time;
+    document.querySelector("#event_modality").value = event.modality;
+    document.querySelector("#event_location").value = event.location;
+    document.querySelector("#event_remote_url").value = event.url;
+    document.querySelector("#event_attendees").value = event.attendees;
+  
+    // Location options depend on the event modality
+    // @TODO: pass event.modality as an argument to the updateLocationOptions() function. Replace <> with event.modality.
+    updateLocationOptions(event.modality);
+  
+    // Set the "action" event for the form to call the updateEventFromModal
+    // when the form is submitted by clicking on the "Creat/Update Event" button
+    const form = document.querySelector("#event-modal form");
+    form.setAttribute("action", `javascript:updateEventFromModal(${id})`);
+  
     EVENT_MODAL.show();
   }
 

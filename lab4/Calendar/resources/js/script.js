@@ -2,9 +2,9 @@ const CALENDAR_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "
 const CALENDAR_EVENTS = [
     {
       name: "Running",
-      day: "wednesday",
-      time: "09:00AM",
-      modality: "In-person",
+      day: "Wednesday",
+      time: "09:00",
+      modality: "In-Person",
       location: "Boulder",
       url: "",
       attendees: "Alice, Jack, Ben",
@@ -55,7 +55,7 @@ function initializeCalendar() {
     card.className = 'col-sm m-1 bg-white rounded px-1 px-md-2';
   
     // This the equivalent of <div id="monday"> in HTML
-    card.id = day.toLowerCase();
+    card.id = day;
     return card;
   }
 
@@ -78,7 +78,7 @@ function initializeCalendar() {
     // adding an event listener to the click event of the icon to open the modal
     // the below line of code would be the equivalent of:
     // <i onclick="openEventModal({day: 'monday'})"> in HTML.
-    icon.setAttribute('onclick', `openEventModal({day: ${card.id}})`);
+    icon.setAttribute('onclick', `openEventModal({day: '${card.id}'})`);
     return icon;
   }
 
@@ -95,7 +95,7 @@ function initializeCalendar() {
   function initializeEventModal() {
     // @TODO: Create a modal using JS. The id will be `event-modal`:
     // Reference: https://getbootstrap.com/docs/5.3/components/modal/#via-javascript
-    EVENT_MODAL = new bootstrap.Modal('#myModal');
+    EVENT_MODAL = new bootstrap.Modal('#event-modal');
   }
 
   function openEventModal({ id, day }) {
@@ -129,7 +129,7 @@ function initializeCalendar() {
       submit_button.innerHTML = "Create Event";
       // Allocate a new event id. Note that nothing is inserted into the CALENDAR_EVENTS yet.
       // @TODO: Set the id to be the length of the CALENDAR_EVENTS because we are adding a new element
-
+      id = CALENDAR_EVENTS.length;
   
   
     } else {
@@ -208,7 +208,7 @@ function initializeCalendar() {
       // In templated strings, you can include variables as ${var_name}.
       // For eg: let name = 'John';
       // let msg = `Welcome ${name}`;
-      let eventElement = document.querySelector(`#event-id`);
+      let eventElement = document.querySelector(`#event-${id}`);
   
       // if event is undefined, i.e. it doesn't exist in the CALENDAR_EVENTS array, make a new one.
       if (eventElement === null) {
@@ -219,7 +219,7 @@ function initializeCalendar() {
       } else {
         // @TODO: Remove the old element while updating the event.
         // Use .remove() with the eventElement to remove the eventElement.
-        eventElement.remove;
+        eventElement.remove();
         eventElement = createEventElement(id);
         const title = createTitleForEvent(event);
         eventElement.appendChild(title);
@@ -242,7 +242,39 @@ function initializeCalendar() {
         .querySelector(`#${event.day} .event-container`)
         .appendChild(eventElement);
     });
-  
-    //updateTooltips(); // Declare the function in the script.js. You will define this function in Part B.
+    
+    updateTooltips(); // Declare the function in the script.js. You will define this function in Part B.
   }
   
+  function updateEventFromModal(id) {
+    // @TODO: Pick the modal field values using document.querySelecter(<>).value,
+    // and assign it to each field in CALENDAR_EVENTS.
+    CALENDAR_EVENTS[id] = {
+      name: document.querySelector('#event_name').value,
+      day: document.querySelector('#event_weekday').value,
+      time: document.querySelector('#event_time').value,
+      modality: document.querySelector('#event_modality').value,
+      location: document.querySelector('#event_location').value,
+      url: document.querySelector('#event_remote_url').value,
+      attendees: document.querySelector('#event_attendees').value,
+    };
+  
+    // Update the dom to display the newly created event and hide the event modal
+    updateDOM();
+    EVENT_MODAL.hide();
+  }
+
+  function updateTooltips() {
+    // @TODO: Display tooltip with the Name, Time and Location of the event.
+    // The formatting of the contents of the tooltip is up to your discretion.
+    const events = CALENDAR_EVENTS;
+  
+    events.forEach((event, id) => {
+        let eventElement = document.querySelector(`#event-${id}`);
+        eventElement.setAttribute('data-bs-toggle', `tooltip`);
+        eventElement.setAttribute('data-bs-title', `${event.name}, ${event.time}, ${event.location}`);
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })
+  }

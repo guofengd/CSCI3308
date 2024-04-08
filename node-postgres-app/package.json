@@ -4,7 +4,7 @@
   "description": "Node.js with PostgreSQL app using Docker",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "John D",
@@ -12,5 +12,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }

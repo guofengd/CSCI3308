@@ -9,10 +9,10 @@ services:
     depends_on:
       - db
     ports:
-      - '3000:3000'
+      - '3001:3000'
     volumes:
       - ./:/home/node/app
-    command: "npm start"
+    command: sh -c "npm install && npm start"
   db:
     image: postgres:latest
     environment:
@@ -22,6 +22,6 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./init_data:/docker-entrypoint-initdb.d
 volumes:
   pgdata:

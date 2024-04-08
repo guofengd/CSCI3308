@@ -1,0 +1,20 @@
+{
+  "name": "login-logout",
+  "version": "1.0.0",
+  "description": "This app implements the basic login / logout functionality. It displays different page depends on the login status.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John D",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "7.1.2",
+    "express-session": "1.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

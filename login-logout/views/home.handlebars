@@ -1,0 +1,8 @@
+{{#if user}}
+    <h2>Welcome, {{user.username}}!</h2>
+    <form action="/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+{{else}}
+    <p>Please <a href="/login">login</a>.</p>
+{{/if}}

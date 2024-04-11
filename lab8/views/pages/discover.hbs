@@ -1,0 +1,16 @@
+<div class="container mt-4">
+  <div class="row">
+    {{#each events as |event|}}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="{{event.image}}" class="card-img-top" alt="{{event.name}}">
+          <div class="card-body">
+            <h5 class="card-title">{{event.name}}</h5>
+            <p class="card-text">{{event.date}} - {{event.time}}</p>
+            <a href="{{event.url}}" class="btn btn-primary">Book Now</a>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
